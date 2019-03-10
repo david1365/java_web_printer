@@ -1,14 +1,16 @@
-package ttsai0509.escpos.command;
+package ir.daak.escpos.command;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-public enum Feed implements Command {
+public enum Initialize implements Command {
 
     Instance;
 
     @Override
     public void write(OutputStream out) throws IOException {
-        out.write(0xA);
+        out.write(0x1B);
+        out.write(0x40);
     }
+
 }

@@ -1,16 +1,9 @@
-package ir.david;
+﻿package ir.daak.escpos.map;
 
-import ttsai0509.escpos.EscPosBuilder;
-import ttsai0509.escpos.command.Align;
-import ttsai0509.escpos.command.Cut;
-import ttsai0509.escpos.command.Font;
-
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
-public class App 
-{
-    static HashMap<Character, Byte> hashMap = new HashMap<Character, Byte>(){{
+public class irsysmap {
+    public static final HashMap<Character, Byte> unicodeIrsys = new HashMap<Character, Byte>(){{
         put('٠', (byte) 128);
         put('١', (byte) 129);
         put('٢', (byte) 130);
@@ -240,50 +233,4 @@ public class App
         put('ﯾ', (byte) 254);
         put('ﯿ', (byte) 254);
     }};
-
-    public static void main( String[] args ) throws UnsupportedEncodingException {
-        String UTF8 = new String( new char[]{'\u06F0', '\u06F1','\u06F2'});
-
-        EscPosBuilder escPos = new EscPosBuilder();
-        byte[] data = escPos.initialize()
-//                .font(Font.EMPHASIZED)
-                .align(Align.CENTER)
-////                .text("HELLO WORLD")
-//                .feed(5)
-//                .cut(Cut.PART)
-                .getBytes();
-
-        PrinterService printerService = new PrinterService();
-//        printerService.printBytes("OLIVETTI PR4 SL Slip", data);
-
-        System.out.println(printerService.getPrinters());
-
-        String num = "!%()*+,-./0123456789:=[]\n" +
-                "{}«·»×÷˙،؛؟ءآأؤإئابت\n" +
-                "ثجحخدذرزسشصضطظعغـفقكلمنه\n" +
-                "وىي٠١٢٣٤٥٦٧٨٩پچژک\n" +
-                "گی۰۱۲۳۴۵۶۷۸۹ﭖﭗﭘﭙﭺﭻ\n" +
-                "ﭼﭽﮊﮋﮎﮏﮐﮑﮒﮓﮔﮕﯼﯽﯽﯾﺁﺃ\n" +
-                "ﺉﺊﺋﺌﺍﺎﺏﺐﺑﺒﺕﺖﺗﺘﺙﺚﺛﺜﺝ\n" +
-                "ﺞﺟﺠﺡﺢﺣﺤﺥﺦﺧﺨﺩﺪﺫﺬﺭﺮﺯﺰﺱ\n" +
-                "ﺲﺳﺴﺵﺶﺷﺸﺹﺺﺻﺼﺽﺾﺿﻀﻁﻂﻃﻄﻅﻆﻇﻈ" +
-                "\nﻉﻊﻋﻌﻍﻎﻏﻐﻑﻒﻓﻔﻕﻖﻗﻘﻙﻚﻛﻜﻝ" ;
-
-        byte[] out = new byte[num.length()];
-
-        for (int i = 0; i< num.length(); i++) {
-            Byte irSYS = hashMap.get(num.charAt(i));
-            out[i] = irSYS != null ? irSYS : (byte)num.charAt(i);
-        }
-
-        printerService.printBytes("OLIVETTI PR4 SL Slip", out);
-
-        //print some stuff
-        printerService.printString("OLIVETTI PR4 SL Slip", "\n");
-
-        // cut that paper!
-        byte[] cutP = new byte[] { 0x1d, 'V', 1 };
-
-        printerService.printBytes("OLIVETTI PR4 SL Slip", cutP);
-    }
 }

@@ -1,4 +1,4 @@
-package ttsai0509.escpos.command;
+package ir.daak.escpos.command;
 
 import java.io.IOException;
 import java.io.OutputStream;

@@ -1,6 +1,7 @@
-package ttsai0509.escpos;
+package ir.daak.escpos;
 
-import ttsai0509.escpos.command.*;
+
+import ir.daak.escpos.command.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

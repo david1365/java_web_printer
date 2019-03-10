@@ -1,24 +1,24 @@
-package ttsai0509.escpos.command;
+package ir.daak.escpos.command;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-public enum Align implements Command {
+public enum Cut implements Command {
 
-    LEFT(0x00),
-    CENTER(0x01),
-    RIGHT(0x02);
+    FULL(0x00),
+    PART(0x01);
 
     private final int code;
 
-    Align(int code) {
+    Cut(int code) {
         this.code = code;
     }
 
     @Override
     public void write(OutputStream out) throws IOException {
-        out.write(0x1B);
-        out.write(0x61);
+        out.write(0x1D);
+        out.write(0x56);
         out.write(code);
     }
+
 }

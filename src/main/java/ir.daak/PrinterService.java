@@ -19,56 +19,60 @@ import javax.print.SimpleDoc;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 
-public class PrinterService implements Printable {
+//TODO from davood akbari: add log4j
+public class PrinterService /*implements Printable*/ {
+
+    final DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
+    final PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
+
+    private PrintService[] lookupPrintServices(){
+        return PrintServiceLookup.lookupPrintServices(
+                flavor, printRequestAttributeSet);            }
+
+    private DocPrintJob createPrintJob(String printerName) {
+        PrintService printServiceList[] = lookupPrintServices();
+
+        PrintService service = findPrintService(printerName, printServiceList);
+
+        return service.createPrintJob();
+    }
 
     public List<String> getPrinters(){
-
-        DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
-        PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
-
-        PrintService printServices[] = PrintServiceLookup.lookupPrintServices(
-                flavor, pras);
+        PrintService printServiceList[] = lookupPrintServices();
 
         List<String> printerList = new ArrayList<String>();
-        for(PrintService printerService: printServices){
-            printerList.add( printerService.getName());
+        for(PrintService printerService: printServiceList){
+            printerList.add(printerService.getName());
         }
 
         return printerList;
     }
 
-    @Override
-    public int print(Graphics g, PageFormat pf, int page)
-            throws PrinterException {
-        if (page > 0) { /* We have only one page, and 'page' is zero-based */
-            return NO_SUCH_PAGE;
-        }
+//    @Override
+//    public int print(Graphics g, PageFormat pf, int page)
+//            throws PrinterException {
+//        if (page > 0) { /* We have only one page, and 'page' is zero-based */
+//            return NO_SUCH_PAGE;
+//        }
+//
+//        /*
+//         * User (0,0) is typically outside the imageable area, so we must
+//         * translate by the X and Y values in the PageFormat to avoid clipping
+//         */
+//        Graphics2D g2d = (Graphics2D) g;
+//        g2d.translate(pf.getImageableX(), pf.getImageableY());
+//        /* Now we perform our rendering */
+//
+//        g.setFont(new Font("Roman", 0, 8));
+//        g.drawString("Hello world !", 0, 10);
+//
+//        return PAGE_EXISTS;
+//    }
 
-        /*
-         * User (0,0) is typically outside the imageable area, so we must
-         * translate by the X and Y values in the PageFormat to avoid clipping
-         */
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.translate(pf.getImageableX(), pf.getImageableY());
-        /* Now we perform our rendering */
-
-        g.setFont(new Font("Roman", 0, 8));
-        g.drawString("Hello world !", 0, 10);
-
-        return PAGE_EXISTS;
-    }
-
+    //TODO from davood akbari: change unicode to irsys
     public void printString(String printerName, String text) {
 
-        // find the printService of name printerName
-        DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
-        PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
-
-        PrintService printService[] = PrintServiceLookup.lookupPrintServices(
-                flavor, pras);
-        PrintService service = findPrintService(printerName, printService);
-
-        DocPrintJob job = service.createPrintJob();
+        DocPrintJob job = createPrintJob(printerName);
 
         try {
 
@@ -111,8 +115,7 @@ public class PrinterService implements Printable {
         }
     }
 
-    private PrintService findPrintService(String printerName,
-                                          PrintService[] services) {
+    private PrintService findPrintService(String printerName, PrintService[] services) {
         for (PrintService service : services) {
             if (service.getName().equalsIgnoreCase(printerName)) {
                 return service;

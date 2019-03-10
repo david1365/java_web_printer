@@ -8,11 +8,14 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.io.UnsupportedEncodingException;
-import static ir.daak.escpos.map.IrSysMap.*;
+import static ir.daak.irsys.map.IrSysMap.*;
+import static ir.daak.irsys.IrSysUtil.*;
 
 
 public class SlipTest
 {
+    PrinterService printerService = new PrinterService();
+
     @Test
     public void print() throws UnsupportedEncodingException {
         EscPosBuilder escPos = new EscPosBuilder();
@@ -24,27 +27,30 @@ public class SlipTest
 //                .cut(Cut.PART)
                 .getBytes();
 
-        PrinterService printerService = new PrinterService();
 
         System.out.println(printerService.getPrinters());
 
-        String num = "!%()*+,-./0123456789:=[]\n" +
-                "{}«·»×÷˙،؛؟ءآأؤإئابت\n" +
-                "ثجحخدذرزسشصضطظعغـفقكلمنه\n" +
-                "وىي٠١٢٣٤٥٦٧٨٩پچژک\n" +
-                "گی۰۱۲۳۴۵۶۷۸۹ﭖﭗﭘﭙﭺﭻ\n" +
-                "ﭼﭽﮊﮋﮎﮏﮐﮑﮒﮓﮔﮕﯼﯽﯽﯾﺁﺃ\n" +
-                "ﺉﺊﺋﺌﺍﺎﺏﺐﺑﺒﺕﺖﺗﺘﺙﺚﺛﺜﺝ\n" +
-                "ﺞﺟﺠﺡﺢﺣﺤﺥﺦﺧﺨﺩﺪﺫﺬﺭﺮﺯﺰﺱ\n" +
-                "ﺲﺳﺴﺵﺶﺷﺸﺹﺺﺻﺼﺽﺾﺿﻀﻁﻂﻃﻄﻅﻆﻇﻈ" +
-                "\nﻉﻊﻋﻌﻍﻎﻏﻐﻑﻒﻓﻔﻕﻖﻗﻘﻙﻚﻛﻜﻝ" ;
+//        String num = "!%()*+,-./0123456789:=[]\n" +
+//                "{}«·»×÷˙،؛؟ءآأؤإئابت\n" +
+//                "ثجحخدذرزسشصضطظعغـفقكلمنه\n" +
+//                "وىي٠١٢٣٤٥٦٧٨٩پچژک\n" +
+//                "گی۰۱۲۳۴۵۶۷۸۹ﭖﭗﭘﭙﭺﭻ\n" +
+//                "ﭼﭽﮊﮋﮎﮏﮐﮑﮒﮓﮔﮕﯼﯽﯽﯾﺁﺃ\n" +
+//                "ﺉﺊﺋﺌﺍﺎﺏﺐﺑﺒﺕﺖﺗﺘﺙﺚﺛﺜﺝ\n" +
+//                "ﺞﺟﺠﺡﺢﺣﺤﺥﺦﺧﺨﺩﺪﺫﺬﺭﺮﺯﺰﺱ\n" +
+//                "ﺲﺳﺴﺵﺶﺷﺸﺹﺺﺻﺼﺽﺾﺿﻀﻁﻂﻃﻄﻅﻆﻇﻈ" +
+//                "\nﻉﻊﻋﻌﻍﻎﻏﻐﻑﻒﻓﻔﻕﻖﻗﻘﻙﻚﻛﻜﻝ" ;
 
-        byte[] out = new byte[num.length()];
+        String text = "زمین";
 
-        for (int i = 0; i< num.length(); i++) {
-            Byte irSYS = unicodeIrsys.get(num.charAt(i));
-            out[i] = irSYS != null ? irSYS : (byte)num.charAt(i);
-        }
+//        byte[] out = new byte[num.length()];
+//
+//        for (int i = 0; i< num.length(); i++) {
+//            Byte irSYS = unicodeIrsys.get(num.charAt(i));
+//            out[i] = irSYS != null ? irSYS : (byte)num.charAt(i);
+//        }
+
+        byte[] out = unicodeToIrSys(text);
 
         printerService.printBytes("OLIVETTI PR4 SL Slip", out);
 

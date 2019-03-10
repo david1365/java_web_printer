@@ -4,15 +4,20 @@ package ir.daak;
 import ir.daak.escpos.EscPosBuilder;
 import ir.daak.escpos.command.Align;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
 import static org.junit.Assert.*;
 
 import java.io.UnsupportedEncodingException;
-import static ir.daak.escpos.map.irsysmap.*;
+import static ir.daak.escpos.map.IrSysMap.*;
 
-public class slipTest
+
+public class SlipTest
 {
     @Test
-    public void print( String[] args ) throws UnsupportedEncodingException {
+    public void print() throws UnsupportedEncodingException {
         EscPosBuilder escPos = new EscPosBuilder();
         byte[] data = escPos.initialize()
 //                .font(Font.EMPHASIZED)

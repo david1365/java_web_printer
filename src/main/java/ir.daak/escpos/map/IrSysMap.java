@@ -1,8 +1,8 @@
-﻿package ir.daak.escpos.map;
+package ir.daak.escpos.map;
 
 import java.util.HashMap;
 
-public class irsysmap {
+public class IrSysMap {
     public static final HashMap<Character, Byte> unicodeIrsys = new HashMap<Character, Byte>(){{
         put('٠', (byte) 128);
         put('١', (byte) 129);

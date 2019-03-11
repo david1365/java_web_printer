@@ -6,12 +6,6 @@ public class IrSysMap {
 
     public static final String separateLetters = "٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹،؛؟ـدذرزاژ";
 
-    public static final HashMap<Character, Byte>  exceptionLetters = new HashMap<Character, Byte>(){{
-        put('ع', (byte) 226);
-        put('غ', (byte) 230);
-        put('ی', (byte) 252);
-    }};
-
     public static final HashMap<Character, Byte> firstLetters = new HashMap<Character, Byte>(){{
 
         put('آ', (byte) 141);
@@ -215,6 +209,12 @@ public class IrSysMap {
         put('ه', (byte) 249);
 
         put('ی', (byte) 253);
+    }};
+
+    public static final HashMap<Character, Byte>  exceptionLetters = new HashMap<Character, Byte>(lastLetters){{
+        put('ع', (byte) 226);
+        put('غ', (byte) 230);
+        put('ی', (byte) 252);
     }};
 
     public static final HashMap<Character, Byte> otherLetters = new HashMap<Character, Byte>(){{

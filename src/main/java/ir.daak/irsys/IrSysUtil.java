@@ -27,7 +27,7 @@ public class IrSysUtil {
         return index == text.length() - 1;
     }
 
-    public static boolean isPersian(char c) {
+    private static boolean isPersian(char c){
         return (c >= 0x0600 && c <= 0x06FF) /*|| (c >= 0xFB50 && c <= 0xFDFF) || (c >= 0xFE70 && c <= 0xFEFF)*/;
     }
 
@@ -68,6 +68,27 @@ public class IrSysUtil {
         return c;
     }
 
+    private static List<WordParts> wordPartsList(String word, String regex){
+        List<WordParts> irsysWordList = new ArrayList<>();
+
+        final Pattern pattern = Pattern.compile(regex);
+        Matcher matcherRequest = pattern.matcher(word);
+        while (matcherRequest.find()) {
+            WordParts wordParts = new WordParts(matcherRequest.group(), matcherRequest.start(), matcherRequest.end());
+            irsysWordList.add(wordParts);
+        }
+
+        return irsysWordList;
+    }
+
+    private static List<WordParts> lineSpaces(String line){
+        return wordPartsList(line, "[ ]+");
+    }
+
+    private static List<WordParts> lineWords(String line){
+        return wordPartsList(line, "[^\\s]+");
+    }
+
     private static List<WordParts> persianWord(String word){
         return wordPartsList(word, "[\\u060C-\\u06F9]+");
     }
@@ -84,17 +105,15 @@ public class IrSysUtil {
         return wordPartsList(word, "[a-zA-z0-9]+");
     }
 
-    private static List<WordParts> wordPartsList(String word, String regex){
-        List<WordParts> irsysWordList = new ArrayList<>();
+    private static byte[] unicodeToIrSys(String word){
+        byte[] out = new byte[word.length()];
 
-        final Pattern pattern = Pattern.compile(regex);
-        Matcher matcherRequest = pattern.matcher(word);
-        while (matcherRequest.find()) {
-            WordParts wordParts = new WordParts(matcherRequest.group(), matcherRequest.start(), matcherRequest.end());
-            irsysWordList.add(wordParts);
+        for (int index = 0; index< word.length(); index++) {
+            Byte irSYS = charAt(word, index);
+            out[index] = irSYS != null ? irSYS : (byte)word.charAt(index);
         }
 
-        return irsysWordList;
+        return out;
     }
 
     private static byte[] getBytes(Comparator<WordParts> comparator, List<WordParts> ...wordPartsLists){
@@ -159,21 +178,19 @@ public class IrSysUtil {
         }).collect(Collectors.toList());
     }
 
-    public static byte[] convertWord(String word){
+    private static byte[] convertWord(String word){
         List<WordParts> persianWordList = converPersian(word);
         List<WordParts> englishWordList = converEnglish(word);
 
         return getBytes(persianWordList, englishWordList);
     }
 
-    private static byte[] unicodeToIrSys(String word){
-        byte[] out = new byte[word.length()];
+    public static byte[] convertLine(String line){
+        String[] wordList = line.split(" ");
 
-        for (int index = 0; index< word.length(); index++) {
-            Byte irSYS = charAt(word, index);
-            out[index] = irSYS != null ? irSYS : (byte)word.charAt(index);
-        }
+//        List<WordParts> persianWordList = con(word);
+//        List<WordParts> englishWordList = converEnglish(word);
 
-        return out;
+        return null;//getBytes(persianWordList, englishWordList);
     }
 }

@@ -54,7 +54,7 @@ public class SlipTest
 //            out[i] = irSYS != null ? irSYS : (byte)num.charAt(i);
 //        }
 
-        byte[] out = convertWord(text);
+        byte[] out = convertLine(text);
 
         printerService.printString("OLIVETTI PR4 SL Slip", "\n\n\n");
 

@@ -8,6 +8,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.io.UnsupportedEncodingException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import static ir.daak.irsys.map.IrSysMap.*;
 import static ir.daak.irsys.IrSysUtil.*;
 
@@ -41,7 +44,8 @@ public class SlipTest
 //                "ﺲﺳﺴﺵﺶﺷﺸﺹﺺﺻﺼﺽﺾﺿﻀﻁﻂﻃﻄﻅﻆﻇﻈ" +
 //                "\nﻉﻊﻋﻌﻍﻎﻏﻐﻑﻒﻓﻔﻕﻖﻗﻘﻙﻚﻛﻜﻝ" ;
 
-        String text = "زمین";
+//        String text = "٠١٢٣٤٥ds٦٧٨٩045asdزمین٠١df٢d٤شس٥٦٧٨٩خاکزمین۰۱۲۳۴gf۵۶g۷۸۹";
+        String text = "٠١٢٣٤٥ds٦٧٨٩045asdزمینdf٢d٤شس٥٦٧٨٩خاکزمین۰۱۲۳۴gf۵۶g۷۸۹";
 
 //        byte[] out = new byte[num.length()];
 //
@@ -50,7 +54,9 @@ public class SlipTest
 //            out[i] = irSYS != null ? irSYS : (byte)num.charAt(i);
 //        }
 
-        byte[] out = unicodeToIrSys(text);
+        byte[] out = convertWord(text);
+
+        printerService.printString("OLIVETTI PR4 SL Slip", "\n\n\n");
 
         printerService.printBytes("OLIVETTI PR4 SL Slip", out);
 

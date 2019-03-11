@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class IrSysMap {
 
-    public static final String separateLetters = "دذرزاژ";
+    public static final String separateLetters = "٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹،؛؟ـدذرزاژ";
 
     public static final HashMap<Character, Byte>  exceptionLetters = new HashMap<Character, Byte>(){{
         put('ع', (byte) 226);
@@ -82,6 +82,7 @@ public class IrSysMap {
     }};
 
     public static final HashMap<Character, Byte> middleLetters = new HashMap<Character, Byte>(){{
+        put('آ', (byte) 145);
 
         put('ا', (byte) 145);
 
@@ -149,6 +150,7 @@ public class IrSysMap {
     }};
 
     public static final HashMap<Character, Byte> lastLetters = new HashMap<Character, Byte>(){{
+        put('آ', (byte) 144);
 
         put('ا', (byte) 144);
 

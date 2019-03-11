@@ -3,6 +3,7 @@ package ir.daak.irsys.map;
 import java.util.HashMap;
 
 public class IrSysMap {
+    //TODO from davood akbari: Reduce the code by merging the maps
 
     public static final String separateLetters = "٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹،؛؟ـدذرزاژ";
 

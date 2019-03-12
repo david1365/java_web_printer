@@ -1,4 +1,4 @@
-package ir.daak.irsys.map;
+package ir.daak.irsys.maps;
 
 import java.util.HashMap;
 

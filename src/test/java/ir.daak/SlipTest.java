@@ -3,15 +3,13 @@ package ir.daak;
 
 import ir.daak.escpos.EscPosBuilder;
 import ir.daak.escpos.command.Align;
+import ir.daak.irsys.enums.Direction;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 import java.io.UnsupportedEncodingException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static ir.daak.irsys.map.IrSysMap.*;
 import static ir.daak.irsys.IrSysUtil.*;
 
 
@@ -44,7 +42,7 @@ public class SlipTest
 //                "ﺲﺳﺴﺵﺶﺷﺸﺹﺺﺻﺼﺽﺾﺿﻀﻁﻂﻃﻄﻅﻆﻇﻈ" +
 //                "\nﻉﻊﻋﻌﻍﻎﻏﻐﻑﻒﻓﻔﻕﻖﻗﻘﻙﻚﻛﻜﻝ" ;
 
-        String text = "٠١٢٣٤٥ds٦٧٨٩045asdزمین٠١df٢d٤شس٥٦٧٨٩خاکزمین۰۱۲۳۴gf۵۶g۷۸۹";
+        String text = "٠١٢٣٤٥ds٦٧٨٩045asdزمین٠١df٢d٤شس٥٦٧٨٩خاکزمین۰۱۲۳۴gf۵۶g۷۸۹ سلام بر حسین david akbari  ٠١٢٣٤٥ فداییان اسلام";
 //        String text = "٠١٢٣٤٥ds٦٧٨٩045asdزمینdf٢d٤شس٥٦٧٨٩خاکزمین۰۱۲۳۴gf۵۶g۷۸۹";
 //        String text = "سسسسسسسسسسس";
 //        byte[] out = new byte[num.length()];
@@ -54,9 +52,9 @@ public class SlipTest
 //            out[i] = irSYS != null ? irSYS : (byte)num.charAt(i);
 //        }
 
-        byte[] out = convertLine(text);
+        byte[] out = getBytes(text, Direction.LEFT_To_RIGHT);
 
-        printerService.printString("OLIVETTI PR4 SL Slip", "\n\n\n");
+//        printerService.printString("OLIVETTI PR4 SL Slip", "\n\n");
 
         printerService.printBytes("OLIVETTI PR4 SL Slip", out);
 

@@ -96,7 +96,7 @@ public class IrSysUtil {
     }
 
     private static List<WordParts> otherLines(String word){
-        return wordPartsList(word, "[^\\u060C-\\uFEFC\\s]+");
+        return wordPartsList(word, "[^،-ﻼ\\s]+[^،-ﻼ]+[^،-ﻼ\\s]+"/*"[^\\u060C-\\uFEFC\\s]+"*/);
     }
 
     private static List<WordParts> persianWords(String word){

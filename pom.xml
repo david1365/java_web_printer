@@ -17,9 +17,15 @@
   <name>slip-printer</name>
 
   <dependencies>
+    <!-- Util -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.scream3r</groupId>
+      <artifactId>jssc</artifactId>
     </dependency>
 
     <dependency>

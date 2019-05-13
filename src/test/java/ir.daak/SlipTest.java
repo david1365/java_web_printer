@@ -61,14 +61,14 @@ public class SlipTest
             byte[] sensor = new byte[] { 0x1b, 0x63, 0x33, 2}; //Select paper sensor(s) to stop printing
             byte[] sensor2 = new byte[] { 0x1b, 0x76}; //Transmit paper sensor status
 
-            byte[] feedLines = new byte[] {0x1B, 0x64, 9};
+            byte[] feedLines = new byte[] {0x1B, 0x64, 12};
             byte[] newLine = new byte[] {0x0A};
 
 //            byte[] alignRight = new byte[] {0x1B, 0x61, 0x02};
             byte[] rightToLeftJ = new byte[]  {0x1b, 0x61, 0x02};
 //            String text = "٠١٢٣٤٥ds٦٧٨٩045asdزمین٠١df٢d٤شس٥٦٧٨٩خاکزمین۰۱۲۳۴gf۵۶g۷۸۹ سلام بر حسین david akbari  ٠١٢٣٤٥ فداییان اسلام";
 //            String text = " ٠١٢٣٤٥ds٦٧٨٩045asdزمین٠١df٢d٤شس٥٦٧٨٩خاکزمین۰۱۲۳۴gf۵۶g۷۸۹ ali bgvh gfg gbvfسلام بر حسین david akbari  ٠١٢٣٤٥ فداییان اسلام ddsa fdasd fdsaasf سیبیسب  سبسیب dafasf fdfa asd dsfa asdf sdf fsadf asfd sfd fdfas سیسش بسیبشس بیبش سیب بیستل سبیسیب بسی سیب 3234324 324234 324 23423 324 یبن aaaa123 7686767 545 بلیل 343 gf 242 dds5452 dsd5 5 dsبیسا ٠١٢٣٤٥ ٠١٢٣٤٥ ٠١٢٣٤٥";
-            String text = "در سال 1395 50 راس از گاو های حسنی در iran bank به خاطر عدم توجه نابود شد این 50 گاه  و بیگاه ماندند.";
+            String text = "در سال 1395 50 راس از گاو های حسنی در iran bank به خاطر عدم توجه نابود شد این 50 گاه  و بیگاه ماندند  واین شدن  بودن یا نبودن بامقدار واضح برای مردم ایران.";
 //            String text1 = "123456789-123456789-123456789-123456789";
 //            String text2 = "123456789-123456789-123456789-123456789";
 //            output.write(data);

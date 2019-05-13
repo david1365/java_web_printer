@@ -3,6 +3,8 @@ package ir.daak.irsys;
 import ir.daak.irsys.enums.Direction;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -13,6 +15,8 @@ import static ir.daak.irsys.maps.IrSysMap.*;
 import static org.apache.commons.lang3.ArrayUtils.*;
 
 public class IrSysUtil {
+    private static final byte MAX_CHAR_EACH_LINE = 88;
+
     private static Boolean isFirstLetter(Integer index){
         return index == 0;
     }
@@ -249,14 +253,38 @@ public class IrSysUtil {
         }).collect(Collectors.toList());
     }
 
-    public static byte[] getBytes(String line, Direction direction){
+    private static byte[] addNewLine(byte[] bytes, Direction direction) throws IOException {
+        if (Direction.RIGHT_TO_LEFT.equals(direction)){
+            if (bytes.length > MAX_CHAR_EACH_LINE){
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                int count = (int) Math.ceil(bytes.length / MAX_CHAR_EACH_LINE);
+
+                int end = bytes.length;
+                for(int i = 0; i <= count; i++){
+                    int begin = end - MAX_CHAR_EACH_LINE;
+                    begin = begin < 0 ? 0 : begin;
+
+                    byte[] subarray = ArrayUtils.subarray(bytes, begin, end);
+                    output.write(subarray);
+
+                    end = begin - 1;
+                }
+
+                return output.toByteArray();
+            }
+        }
+
+        return bytes;
+    }
+
+    public static byte[] getBytes(String line, Direction direction) throws IOException {
         List<WordParts> persianLines = convertPersianLines(line);
         List<WordParts> otherLines = convertOtherLines(line);
 
-        return getBytes(direction, persianLines, otherLines);
+        return addNewLine(getBytes(direction, persianLines, otherLines), direction);
     }
 
-    public static byte[] getBytes(String line){
+    public static byte[] getBytes(String line) throws IOException {
         return getBytes(line, Direction.LEFT_To_RIGHT);
     }
 }

@@ -287,4 +287,5 @@ public class IrSysUtil {
     public static byte[] getBytes(String line) throws IOException {
         return getBytes(line, Direction.LEFT_To_RIGHT);
     }
+
 }

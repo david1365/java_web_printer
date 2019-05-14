@@ -288,4 +288,5 @@ public class IrSysUtil {
         return getBytes(line, Direction.LEFT_To_RIGHT);
     }
 
+
 }

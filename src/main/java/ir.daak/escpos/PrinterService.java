@@ -13,6 +13,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PrinterService extends SerialPort {
+    private int bitsPerSecond = SerialPort.BAUDRATE_9600;
+    private int dataBits = SerialPort.DATABITS_8;
+    private int stopBits = SerialPort.STOPBITS_1;
+    private int parity = SerialPort.PARITY_NONE;
+    private int flowControl = SerialPort.FLOWCONTROL_NONE;
+
     private CommandList commandsList = new CommandList();
 
     public PrinterService(String portName) {
@@ -23,14 +29,20 @@ public class PrinterService extends SerialPort {
         super("COM1");
     }
 
+    public PrinterService(String portName, int bitsPerSecond, int dataBits, int stopBits, int parity, int flowControl) {
+        super(portName);
+        this.bitsPerSecond = bitsPerSecond;
+        this.dataBits = dataBits;
+        this.stopBits = stopBits;
+        this.parity = parity;
+        this.flowControl = flowControl;
+    }
+
     private void open() throws SerialPortException {
         this.openPort();
 
-        this.setParams(SerialPort.BAUDRATE_9600,
-                SerialPort.DATABITS_8,
-                SerialPort.STOPBITS_1,
-                SerialPort.PARITY_NONE);//Set params. Also you can set params by this string: serialPort.setParams(9600, 8, 1, 0);
-        this.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
+        this.setParams(bitsPerSecond, dataBits, stopBits, parity);//Set params. Also you can set params by this string: serialPort.setParams(9600, 8, 1, 0);
+        this.setFlowControlMode(flowControl);
 
         int mask = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;//Prepare mask
         this.setEventsMask(mask);//Set mask

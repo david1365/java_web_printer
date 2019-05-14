@@ -55,17 +55,23 @@ public class SlipTest
             serialPort.addEventListener(new SerialPortReader());//Add SerialPortEventListener
 
             ByteArrayOutputStream output = new ByteArrayOutputStream();
-            byte[] init = new byte[] { 0x1b, 0x40}; //Print and eject slip paper
-            byte[] eject = new byte[] { 0x0c }; //Print and eject slip paper
+            byte[] init =  { 0x1b, 0x40}; //Print and eject slip paper
+            byte[] eject =  { 0x0c }; //Print and eject slip paper
 
-            byte[] sensor = new byte[] { 0x1b, 0x63, 0x33, 2}; //Select paper sensor(s) to stop printing
-            byte[] sensor2 = new byte[] { 0x1b, 0x76}; //Transmit paper sensor status
+            byte[] sensor =  { 0x1b, 0x63, 0x33, 2}; //Select paper sensor(s) to stop printing
+            byte[] sensor2 =  { 0x1b, 0x76}; //Transmit paper sensor status
+            byte[] sensor3 =  { 0x10, 0x04, 0x05}; //Real-time status transmission
 
-            byte[] feedLines = new byte[] {0x1B, 0x64, 12};
-            byte[] newLine = new byte[] {0x0A};
+            byte[] CD_KICK_5 = {0x1b, 0x70, 0x01}; // Sends a pulse to pin 5 []
+            byte[] FRONT =  { 0x1C, 0x61, 0x31}; //Load/check paper to print starting position
 
-//            byte[] alignRight = new byte[] {0x1B, 0x61, 0x02};
-            byte[] rightToLeftJ = new byte[]  {0x1b, 0x61, 0x02};
+            byte[] printBuffer =  { 0x0D }; //Carriage return.  print buffer and does not feed the pape
+
+            byte[] feedLines =  {0x1B, 0x64, 12};
+            byte[] newLine =  {0x0A};
+
+//            byte[] alignRight =  {0x1B, 0x61, 0x02};
+            byte[] rightToLeftJ =   {0x1b, 0x61, 0x02};
 //            String text = "٠١٢٣٤٥ds٦٧٨٩045asdزمین٠١df٢d٤شس٥٦٧٨٩خاکزمین۰۱۲۳۴gf۵۶g۷۸۹ سلام بر حسین david akbari  ٠١٢٣٤٥ فداییان اسلام";
 //            String text = " ٠١٢٣٤٥ds٦٧٨٩045asdزمین٠١df٢d٤شس٥٦٧٨٩خاکزمین۰۱۲۳۴gf۵۶g۷۸۹ ali bgvh gfg gbvfسلام بر حسین david akbari  ٠١٢٣٤٥ فداییان اسلام ddsa fdasd fdsaasf سیبیسب  سبسیب dafasf fdfa asd dsfa asdf sdf fsadf asfd sfd fdfas سیسش بسیبشس بیبش سیب بیستل سبیسیب بسی سیب 3234324 324234 324 23423 324 یبن aaaa123 7686767 545 بلیل 343 gf 242 dds5452 dsd5 5 dsبیسا ٠١٢٣٤٥ ٠١٢٣٤٥ ٠١٢٣٤٥";
             String text = "در سال 1395 50 راس از گاو های حسنی در iran bank به خاطر عدم توجه نابود شد این 50 گاه  و بیگاه ماندند  واین شدن  بودن یا نبودن بامقدار واضح برای مردم ایران.";
@@ -75,6 +81,9 @@ public class SlipTest
             output.write(init);
 //            output.write(sensor);
 //            output.write(sensor2);
+            output.write(CD_KICK_5);
+            output.write(FRONT);
+            output.write(printBuffer);
 //            output.write("ali mamad".getBytes());
             output.write(feedLines);
             output.write(rightToLeftJ);
@@ -127,7 +136,7 @@ public class SlipTest
 //        printerService.printString("OLIVETTI PR4 SL Slip", "\n");
 
         // cut that paper!
-//        byte[] cutP = new byte[] { 0x1d, 'V', 1 };
+//        byte[] cutP =  { 0x1d, 'V', 1 };
 
 //        printerService.printBytes("OLIVETTI PR4 SL Slip", data);
 

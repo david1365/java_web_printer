@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static ir.daak.irsys.maps.IrSysMap.*;
+import static ir.daak.irsys.IrSysMap.*;
 import static org.apache.commons.lang3.ArrayUtils.*;
 
 public class IrSysUtil {

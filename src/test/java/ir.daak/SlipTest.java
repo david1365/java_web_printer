@@ -2,6 +2,7 @@ package ir.daak;
 
 
 import ir.daak.escpos.PrinterService;
+import ir.daak.escpos.dto.CommandDto;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
@@ -10,7 +11,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class SlipTest
@@ -21,23 +25,54 @@ public class SlipTest
     PrinterService printerService = new PrinterService();
 
     @Test
-    public void print() throws UnsupportedEncodingException {
-        EscPosBuilder escPos = new EscPosBuilder();
-        byte[] data = escPos.initialize()
-                .font(Font.EMPHASIZED)
-                .align(Align.CENTER).feed(10)
-                .text("HELLO WORLD with com port")
-                .feed(3)
-                .kick(DrawerKick.PIN2)
-                .cut(Cut.FULL)
-                .getBytes();
+    public void print() /*throws UnsupportedEncodingException*/ {
+//        EscPosBuilder escPos = new EscPosBuilder();
+//        byte[] data = escPos.initialize()
+//                .font(Font.EMPHASIZED)
+//                .align(Align.CENTER).feed(10)
+//                .text("HELLO WORLD with com port")
+//                .feed(3)
+//                .kick(DrawerKick.PIN2)
+//                .cut(Cut.FULL)
+//                .getBytes();
 
 
-        serialPort = new SerialPort("COM1");
+//        serialPort = new SerialPort("COM1");
         try {
+            PrinterService printerService = new PrinterService();
+            printerService.print(new ArrayList<CommandDto>(){{
+                add(new CommandDto("DIRECTION_LEFT_TO_RIGHT", "LEFT_TO_RIGHT"));
+                add(new CommandDto("TEXT", "hello iran"));
+
+                add(new CommandDto("FEED_LINES", "1"));
+
+                add(new CommandDto("DIRECTION_RIGHT_TO_LEFT", "RIGHT_TO_LEFT"));
+                add(new CommandDto("TEXT", "سلام ایران و ایرانی"));
+
+                add(new CommandDto("FEED_LINES", "1"));
+
+                add(new CommandDto("DIRECTION_LEFT_TO_RIGHT", "LEFT_TO_RIGHT"));
+                add(new CommandDto("ALIGN_LEFT", "ALIGN_LEFT"));
+                add(new CommandDto("TEXT", "hello iran"));
+
+                add(new CommandDto("FEED_LINES", "1"));
+
+                add(new CommandDto("DIRECTION_RIGHT_TO_LEFT", "RIGHT_TO_LEFT"));
+                add(new CommandDto("ALIGN_RIGHT", "ALIGN_RIGHT"));
+                add(new CommandDto("TEXT", "سلام ایران و ایرانی"));
+
+                add(new CommandDto("FEED_LINES", "1"));
+
+                add(new CommandDto("ALIGN_CENTER", "ALIGN_CENTER"));
+                add(new CommandDto("TEXT", "سلام ایران و ایرانی"));
+
+                add(new CommandDto("FEED_LINES", "10"));
+
+                add(new CommandDto("TEXT", "سلام ایران و ایرانی"));
+            }});
 
 //            ByteArrayOutputStream output = new ByteArrayOutputStream();
-//            byte[] init =  { 0x1b, 0x40}; //Print and eject slip paper
+//            byte[] init =  { 0x1b, 0x40}; //Initialize printer
 //            byte[] eject =  { 0x0c }; //Print and eject slip paper
 //
 //            byte[] sensor =  { 0x1b, 0x63, 0x33, 2}; //Select paper sensor(s) to stop printing
@@ -77,11 +112,11 @@ public class SlipTest
 //
 //            byte[] data = output.toByteArray();
 
-            serialPort.writeBytes(data);//Write data to port
-
-            serialPort.closePort();//Close serial port
+//            serialPort.writeBytes(data);//Write data to port
+//
+//            serialPort.closePort();//Close serial port
         }
-        catch (SerialPortException /*| IOException */ex) {
+        catch (SerialPortException | IOException ex) {
             System.out.println(ex);
         }
 
@@ -108,7 +143,7 @@ public class SlipTest
 //            out[i] = irSYS != null ? irSYS : (byte)num.charAt(i);
 //        }
 
-//        byte[] out = getBytes(text, Direction.LEFT_To_RIGHT);
+//        byte[] out = getBytes(text, Direction.LEFT_TO_RIGHT);
 
 //        printerService.printString("OLIVETTI PR4 SL Slip", "\n\n");
 

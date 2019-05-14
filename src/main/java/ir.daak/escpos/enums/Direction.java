@@ -5,7 +5,7 @@ import ir.daak.escpos.model.WordParts;
 import java.util.Comparator;
 
 public enum Direction {
-    LEFT_To_RIGHT,
+    LEFT_TO_RIGHT,
     RIGHT_TO_LEFT;
 
     public Comparator<WordParts> comparator(){

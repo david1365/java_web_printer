@@ -1,17 +1,23 @@
 package ir.daak.escpos.model;
 
 public class Command {
-    private Byte[] command;
+    private byte[] command;
     private boolean hasParameter = false;
     private boolean notPrintableCode = false;
+    private boolean texted = false;
 
-    public Command(Byte[] command, boolean hasParameter) {
+    public Command(byte[] command, boolean hasParameter) {
         this(command);
         this.hasParameter = hasParameter;
     }
 
-    public Command(Byte[] command) {
+    public Command(byte[] command) {
         this.command = command;
+    }
+
+    public Command(boolean texted) {
+        this(true, true);
+        this.texted = texted;
     }
 
     public Command(boolean hasParameter, boolean notPrintableCode) {
@@ -19,11 +25,11 @@ public class Command {
         this.notPrintableCode = notPrintableCode;
     }
 
-    public Byte[] getCommand() {
+    public byte[] getCommand() {
         return command;
     }
 
-    public void setCommand(Byte[] command) {
+    public void setCommand(byte[] command) {
         this.command = command;
     }
 
@@ -41,5 +47,13 @@ public class Command {
 
     public void setNotPrintableCode(boolean notPrintableCode) {
         this.notPrintableCode = notPrintableCode;
+    }
+
+    public boolean isTexted() {
+        return texted;
+    }
+
+    public void setTexted(boolean texted) {
+        this.texted = texted;
     }
 }

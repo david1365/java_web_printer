@@ -1,6 +1,6 @@
 package ir.daak.escpos;
 
-import ir.daak.escpos.enums.Direction;
+import ir.daak.escpos.dto.CommandDto;
 import ir.daak.escpos.maps.CommandList;
 import ir.daak.escpos.model.Command;
 import jssc.SerialPort;
@@ -8,6 +8,8 @@ import jssc.SerialPortEvent;
 import jssc.SerialPortException;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PrinterService extends SerialPort {
@@ -15,6 +17,10 @@ public class PrinterService extends SerialPort {
 
     public PrinterService(String portName) {
         super(portName);
+    }
+
+    public PrinterService() {
+        super("COM1");
     }
 
     private void open() throws SerialPortException {
@@ -62,34 +68,48 @@ public class PrinterService extends SerialPort {
         }
     }
 
-    private byte[] commands2Bytes(HashMap<String, Object> CommandsIn) {
+    private byte[] commands2Bytes(ArrayList<CommandDto> CommandsIn) throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        Direction direction;
+        IrSys irSys = IrSys.initialize();
 
-        for (String commandIn : CommandsIn.keySet()) {
-            Command command =  commandsList.get(commandIn);
-            Byte[] hexCommand = command.getCommand();
+        for (CommandDto commandIn : CommandsIn) {
+            Command command =  commandsList.get(commandIn.getName());
+            byte[] hexCommand = command.getCommand();
 
             if (command.isHasParameter()){
-                if (command.isNotPrintableCode()){
+                String param = commandIn.getParam();
 
+                if (command.isNotPrintableCode()){
+                    if (command.isTexted()){
+                        output.write(irSys.getBytes(param));
+                    }
+                    else {
+                        irSys.direction(param);
+                    }
                 }
                 else {
-                    hexCommand[hexCommand.length - 1] = (Byte) CommandsIn.get(commandIn);
+                    hexCommand[hexCommand.length - 1] = Byte.parseByte(param);
+                    output.write(hexCommand);
                 }
+            }
+            else {
+                output.write(hexCommand);
             }
         }
 
         return output.toByteArray();
     }
 
-    public void print(HashMap<String, Object> commands) throws SerialPortException {
+    public void print(ArrayList<CommandDto> commands) throws SerialPortException, IOException {
         open();
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-        writeBytes(commands2Bytes(commands));
+        output.write(CommandList.initialize);
+        output.write(commands2Bytes(commands));
+        output.write(CommandList.eject);
+
+        writeBytes(output.toByteArray());
 
         closePort();
     }
-
-
 }

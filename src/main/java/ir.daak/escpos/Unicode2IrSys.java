@@ -1,6 +1,7 @@
-package ir.daak.irsys;
+package ir.daak.escpos;
 
-import ir.daak.irsys.enums.Direction;
+import ir.daak.escpos.enums.Direction;
+import ir.daak.escpos.model.WordParts;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -11,33 +12,33 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static ir.daak.irsys.IrSysMap.*;
+import static ir.daak.escpos.maps.IrSysMap.*;
 import static org.apache.commons.lang3.ArrayUtils.*;
 
-public class IrSysUtil {
-    private static final byte MAX_CHAR_EACH_LINE = 88;
+public class Unicode2IrSys {
+    private final byte MAX_CHAR_EACH_LINE = 88;
 
-    private static Boolean isFirstLetter(Integer index){
+    private Boolean isFirstLetter(Integer index){
         return index == 0;
     }
 
-    private static Boolean isNoAlphabet(char cIn){
+    private Boolean isNoAlphabet(char cIn){
         return otherLetters.get(cIn) != null;
     }
 
-    private static Boolean isMiddleLetter(String text, Integer index){
+    private Boolean isMiddleLetter(String text, Integer index){
         return index > 0 && index < text.length() - 1;
     }
 
-    private static Boolean isLastLetters(String text, Integer index){
+    private Boolean isLastLetters(String text, Integer index){
         return index == text.length() - 1;
     }
 
-    private static boolean isPersian(char c){
+    private boolean isPersian(char c){
         return (c >= 0x0600 && c <= 0x06FF) /*|| (c >= 0xFB50 && c <= 0xFDFF) || (c >= 0xFE70 && c <= 0xFEFF)*/;
     }
 
-    private static Boolean isSeparateLetter(String text, Integer previousLetterIndex){
+    private Boolean isSeparateLetter(String text, Integer previousLetterIndex){
         if (previousLetterIndex <= 0){
                 return true;
         }
@@ -46,7 +47,7 @@ public class IrSysUtil {
         return separateLetters.indexOf(c) > 0 || !isPersian(c) || isNoAlphabet(c);
     }
 
-    private static Byte charAt(String text, Integer index){
+    private Byte charAt(String text, Integer index){
         Byte c = null;
         char cIn = text.charAt(index);
 
@@ -74,7 +75,7 @@ public class IrSysUtil {
         return c;
     }
 
-    private static List<WordParts> wordPartsList(String word, String regex){
+    private List<WordParts> wordPartsList(String word, String regex){
         List<WordParts> irsysWordList = new ArrayList<>();
 
         final Pattern pattern = Pattern.compile(regex);
@@ -87,39 +88,39 @@ public class IrSysUtil {
         return irsysWordList;
     }
 
-    private static List<WordParts> lineSpaces(String line){
+    private List<WordParts> lineSpaces(String line){
         return wordPartsList(line, "[ ]+");
     }
 
-    private static List<WordParts> lineWords(String line){
+    private List<WordParts> lineWords(String line){
         return wordPartsList(line, "[^\\s]+");
     }
 
-    private static List<WordParts> persianLines(String word){
+    private List<WordParts> persianLines(String word){
         return wordPartsList(word, "[\\u060C-\\uFEFC\\s]+");
     }
 
-    private static List<WordParts> otherLines(String word){
+    private List<WordParts> otherLines(String word){
         return wordPartsList(word, "[^،-ﻼ\\s]+[^،-ﻼ]+[^،-ﻼ\\s]+"/*"[^\\u060C-\\uFEFC\\s]+"*/);
     }
 
-    private static List<WordParts> persianWords(String word){
+    private List<WordParts> persianWords(String word){
         return wordPartsList(word, "[\\u060C-\\uFEFC]+");
     }
 
-    private static List<WordParts> persianAlphabets(String word){
+    private List<WordParts> persianAlphabets(String word){
         return wordPartsList(word, "[\\u0621-\\u0652\\u067E-\\u06CC\\u200C-\\uFEFC]+");
     }
 
-    private static List<WordParts> persianWithoutAlphabets(String word){//number and other
+    private List<WordParts> persianWithoutAlphabets(String word){//number and other
         return wordPartsList(word, "[\\u0660-\\u0669\\u06F0-\\u06F9\\u060C-\\u061F\\u0640]+");
     }
 
-    private static List<WordParts> otherWords(String word){
+    private List<WordParts> otherWords(String word){
         return wordPartsList(word, "[^\\u060C-\\uFEFC]+"/*"[a-zA-z0-9]+"*/);
     }
 
-    private static byte[] unicodeToIrSys(String word){
+    private byte[] unicodeToIrSys(String word){
         byte[] out = new byte[word.length()];
 
         for (int index = 0; index< word.length(); index++) {
@@ -130,7 +131,7 @@ public class IrSysUtil {
         return out;
     }
 
-    private static List<WordParts> concat(List<WordParts> ...wordPartsLists) {
+    private List<WordParts> concat(List<WordParts> ...wordPartsLists) {
         List<WordParts> allWord = new ArrayList<>();
 
         for (List<WordParts> wordPartsList : wordPartsLists) {
@@ -140,17 +141,17 @@ public class IrSysUtil {
         return allWord;
     }
 
-    private static byte[] getBytes(Direction direction, List<WordParts> ...wordPartsLists){
+    private byte[] getBytes(Direction direction, List<WordParts> ...wordPartsLists){
         List<WordParts> allWords = concat(wordPartsLists);
 
         return allWords.size() > 0 ? allWords.stream().sorted(direction.comparator()).map(WordParts::getIrSysWord).reduce(ArrayUtils::addAll).get() : null;
     }
 
-    private static byte[] getBytes(List<WordParts> ...wordPartsLists){
+    private byte[] getBytes(List<WordParts> ...wordPartsLists){
         return getBytes(Direction.LEFT_To_RIGHT, wordPartsLists);
     }
 
-    private static List<WordParts> converOther(String word){
+    private List<WordParts> converOther(String word){
         return otherWords(word).stream().map(wordParts -> {
 
             byte[] out = unicodeToIrSys(wordParts.getWord());
@@ -161,7 +162,7 @@ public class IrSysUtil {
         }).collect(Collectors.toList());
     }
 
-    private static List<WordParts> converPersianString(String word){
+    private List<WordParts> converPersianString(String word){
         return persianAlphabets(word).stream().map(wordParts -> {
             byte[] out = unicodeToIrSys(wordParts.getWord());
 
@@ -173,7 +174,7 @@ public class IrSysUtil {
         }).collect(Collectors.toList());
     }
 
-    private static List<WordParts> converOtherPersian(String word){
+    private List<WordParts> converOtherPersian(String word){
         return persianWithoutAlphabets(word).stream().map(wordParts -> {
             byte[] out = unicodeToIrSys(wordParts.getWord());
 
@@ -183,7 +184,7 @@ public class IrSysUtil {
         }).collect(Collectors.toList());
     }
 
-    private static List<WordParts> converPersian(String word){
+    private List<WordParts> converPersian(String word){
         return persianWords(word).stream().map(wordParts -> {
             List<WordParts> persianStringList = converPersianString(wordParts.getWord());
             List<WordParts> otehrPersianList = converOtherPersian(wordParts.getWord());
@@ -198,14 +199,14 @@ public class IrSysUtil {
         }).collect(Collectors.toList());
     }
 
-    private static byte[] convertWord(String word){
+    private byte[] convertWord(String word){
         List<WordParts> persianWordList = converPersian(word);
         List<WordParts> otherWordList = converOther(word);
 
         return getBytes(persianWordList, otherWordList);
     }
 
-    private static List<WordParts> convertWordList(String line){
+    private List<WordParts> convertWordList(String line){
         return lineWords(line).stream().map(wordParts -> {
 
             wordParts.setIrSysWord(convertWord(wordParts.getWord()));
@@ -215,7 +216,7 @@ public class IrSysUtil {
         }).collect(Collectors.toList());
     }
 
-    private static List<WordParts> convertSpaceList(String line){
+    private List<WordParts> convertSpaceList(String line){
         return lineSpaces(line).stream().map(wordParts -> {
             byte[] out = unicodeToIrSys(wordParts.getWord());
 
@@ -226,14 +227,14 @@ public class IrSysUtil {
         }).collect(Collectors.toList());
     }
 
-    private static byte[] convertLine(String line, Direction direction){
+    private byte[] convertLine(String line, Direction direction){
         List<WordParts> wordList = convertWordList(line);
         List<WordParts> spaceList = convertSpaceList(line);
 
         return getBytes(direction, wordList, spaceList);
     }
 
-    private static List<WordParts> convertPersianLines(String line){
+    private List<WordParts> convertPersianLines(String line){
         return persianLines(line).stream().map(wordParts -> {
 
             wordParts.setIrSysWord(convertLine(wordParts.getWord(), Direction.RIGHT_TO_LEFT));
@@ -243,7 +244,7 @@ public class IrSysUtil {
         }).collect(Collectors.toList());
     }
 
-    private static List<WordParts> convertOtherLines(String line){
+    private List<WordParts> convertOtherLines(String line){
         return otherLines(line).stream().map(wordParts -> {
 
             wordParts.setIrSysWord(convertLine(wordParts.getWord(), Direction.LEFT_To_RIGHT));
@@ -253,7 +254,7 @@ public class IrSysUtil {
         }).collect(Collectors.toList());
     }
 
-    private static byte[] addNewLine(byte[] bytes, Direction direction) throws IOException {
+    private byte[] addNewLine(byte[] bytes, Direction direction) throws IOException {
         if (Direction.RIGHT_TO_LEFT.equals(direction)){
             if (bytes.length > MAX_CHAR_EACH_LINE){
                 ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -277,14 +278,14 @@ public class IrSysUtil {
         return bytes;
     }
 
-    public static byte[] getBytes(String line, Direction direction) throws IOException {
+    public byte[] getBytes(String line, Direction direction) throws IOException {
         List<WordParts> persianLines = convertPersianLines(line);
         List<WordParts> otherLines = convertOtherLines(line);
 
         return addNewLine(getBytes(direction, persianLines, otherLines), direction);
     }
 
-    public static byte[] getBytes(String line) throws IOException {
+    public byte[] getBytes(String line) throws IOException {
         return getBytes(line, Direction.LEFT_To_RIGHT);
     }
 }

@@ -1,6 +1,6 @@
-package ir.daak.irsys.enums;
+package ir.daak.escpos.enums;
 
-import ir.daak.irsys.WordParts;
+import ir.daak.escpos.model.WordParts;
 
 import java.util.Comparator;
 

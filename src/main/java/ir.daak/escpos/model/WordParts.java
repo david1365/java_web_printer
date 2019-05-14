@@ -1,4 +1,4 @@
-package ir.daak.irsys;
+package ir.daak.escpos.model;
 
 public class WordParts implements Comparable{
     private String word;

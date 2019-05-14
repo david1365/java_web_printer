@@ -4,8 +4,8 @@ import ir.daak.escpos.model.Command;
 
 import java.util.HashMap;
 
-public class Commands extends HashMap<String, Command> {
-    public Commands() {
+public class CommandList extends HashMap<String, Command> {
+    public CommandList() {
         super();
 
         put("FEED", new Command( new Byte[] {0xA} )); // Print and line feed

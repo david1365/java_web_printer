@@ -10,7 +10,6 @@ import jssc.SerialPortException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class PrinterService extends SerialPort {
     private int bitsPerSecond = SerialPort.BAUDRATE_9600;

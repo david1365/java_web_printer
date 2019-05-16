@@ -116,13 +116,16 @@ public class PrinterService extends SerialPort {
     }
 
     public void print(ArrayList<CommandDto> commands) throws SerialPortException, IOException, InvalidCommandEntryException {
-        open();
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try {
+            open();
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-        output.write(commands2Bytes(commands));
+            output.write(commands2Bytes(commands));
 
-        writeBytes(output.toByteArray());
-
-        closePort();
+            writeBytes(output.toByteArray());
+        }
+        finally {
+            closePort();
+        }
     }
 }

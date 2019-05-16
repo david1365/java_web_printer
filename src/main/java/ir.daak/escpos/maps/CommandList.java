@@ -9,11 +9,14 @@ public class CommandList extends HashMap<String, Command> {
 
     public static final byte[] eject =  { 0x0c }; //Print and eject slip paper
 
+    public static final byte[] slipInsertionSensor = {0x1B, 0x63, 0x34 , 0};//Select paper sensor(s) to stop printing
+
     public CommandList() {
         super();
 
         put("FEED", new Command( new byte[] {0x0A})); // Print and line feed
         put("FEED_LINES", new Command( new byte[] {0x1B, 0x64, 0}, true )); // Print and line feed
+        put("SLIP_INSERTION_SENSOR", new Command( new byte[] {0x1B, 0x63, 0x34 , 0}, true));//Select paper sensor(s) to stop printing
 
         put("CAN_HT", new Command( new byte[] {0x1b, 0x44, 0x00} )); // Cancel  Horizontal Tab
         put("HT", new Command( new byte[] {0x09} )); // Horizontal Tab

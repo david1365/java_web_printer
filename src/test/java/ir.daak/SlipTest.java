@@ -1,20 +1,17 @@
 package ir.daak;
 
 
+import ir.daak.escpos.InvalidCommandEntryException;
 import ir.daak.escpos.PrinterService;
 import ir.daak.escpos.dto.CommandDto;
 import jssc.SerialPort;
-import jssc.SerialPortEvent;
-import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class SlipTest
@@ -25,7 +22,7 @@ public class SlipTest
     PrinterService printerService = new PrinterService();
 
     @Test
-    public void print() /*throws UnsupportedEncodingException*/ {
+    public void print() throws InvalidCommandEntryException /*throws UnsupportedEncodingException*/ {
 //        EscPosBuilder escPos = new EscPosBuilder();
 //        byte[] data = escPos.initialize()
 //                .font(Font.EMPHASIZED)

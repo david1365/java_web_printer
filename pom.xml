@@ -17,6 +17,12 @@
   <name>slip-printer</name>
 
   <dependencies>
+    <!--base-->
+    <dependency>
+      <groupId>ir.daak</groupId>
+      <artifactId>base</artifactId>
+    </dependency>
+
     <!-- Util -->
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -26,6 +32,11 @@
     <dependency>
       <groupId>org.scream3r</groupId>
       <artifactId>jssc</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
     </dependency>
 
     <!--validator-->

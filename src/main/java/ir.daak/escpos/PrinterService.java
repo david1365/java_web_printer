@@ -79,12 +79,16 @@ public class PrinterService extends SerialPort {
         }
     }
 
-    private byte[] commands2Bytes(ArrayList<CommandDto> CommandsIn) throws IOException {
+    private byte[] commands2Bytes(ArrayList<CommandDto> CommandsIn) throws IOException, InvalidCommandEntryException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         IrSys irSys = IrSys.initialize();
 
         for (CommandDto commandIn : CommandsIn) {
             Command command =  commandsList.get(commandIn.getName());
+            if (command == null) {
+                throw new InvalidCommandEntryException("Invalid command entry!");
+            }
+
             byte[] hexCommand = command.getCommand();
 
             if (command.isHasParameter()){
@@ -111,13 +115,11 @@ public class PrinterService extends SerialPort {
         return output.toByteArray();
     }
 
-    public void print(ArrayList<CommandDto> commands) throws SerialPortException, IOException {
+    public void print(ArrayList<CommandDto> commands) throws SerialPortException, IOException, InvalidCommandEntryException {
         open();
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-        output.write(CommandList.initialize);
         output.write(commands2Bytes(commands));
-        output.write(CommandList.eject);
 
         writeBytes(output.toByteArray());
 

@@ -5,14 +5,11 @@ import ir.daak.escpos.model.Command;
 import java.util.HashMap;
 
 public class CommandList extends HashMap<String, Command> {
-    public static final byte[] initialize =  { 0x1b, 0x40}; //Initialize printer\
-
-    public static final byte[] eject =  { 0x0c }; //Print and eject slip paper
-
-    public static final byte[] slipInsertionSensor = {0x1B, 0x63, 0x34 , 0};//Select paper sensor(s) to stop printing
-
     public CommandList() {
         super();
+
+        put("INITIALIZE", new Command( new byte[] {0x1b, 0x40}));//Initialize printer
+        put("SLIP_PRINT_EJECT_PAPER", new Command( new byte[] {0x0c}));//Print and eject slip paper
 
         put("FEED", new Command( new byte[] {0x0A})); // Print and line feed
         put("FEED_LINES", new Command( new byte[] {0x1B, 0x64, 0}, true )); // Print and line feed

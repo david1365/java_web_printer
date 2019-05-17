@@ -68,11 +68,11 @@ public class IrSys {
             if (isMiddleSeparate(text, index) && isSeparateLetter(text, index - 1)){
                 c = FIRST_LETTERS.get(cIn);
             }
-            else if(isSeparateLetter(text, index + 1) &&
-                    (!isMiddleSeparate(text, index + 1)) &&
-                    (!isSeparateLetter(text, index - 1))){
-                c = LAST_LETTERS.get(cIn);
-            }
+//            else if(isSeparateLetter(text, index + 1) &&
+//                    (!isMiddleSeparate(text, index + 1)) &&
+//                    (!isSeparateLetter(text, index - 1))){
+//                c = LAST_LETTERS.get(cIn);
+//            }
             else {
                 c = MIDDLE_LETTERS.get(cIn);
             }

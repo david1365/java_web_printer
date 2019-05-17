@@ -49,9 +49,9 @@ public class IrSys {
         return SEPARATE_LETTERS.indexOf(c) >= 0 || !isPersian(c) || isNoAlphabet(c);
     }
 
-    private Boolean isMiddleSeparate(String text, Integer index){
+    private Boolean isTwoPhasedMiddleLetters(String text, Integer index){
         char c = text.charAt(index);
-        return MIDDLE_SEPARATE_LETTERS.indexOf(c) >= 0;
+        return TWO_PHASED_MIDDLE_LETTERS.indexOf(c) >= 0;
     }
 
     private Byte charAt(String text, Integer index){
@@ -65,11 +65,11 @@ public class IrSys {
             c = FIRST_LETTERS.get(cIn);
         }
         else if(isMiddleLetter(text, index)){
-            if (isMiddleSeparate(text, index) && isSeparateLetter(text, index - 1)){
+            if (isTwoPhasedMiddleLetters(text, index) && isSeparateLetter(text, index - 1)){
                 c = FIRST_LETTERS.get(cIn);
             }
 //            else if(isSeparateLetter(text, index + 1) &&
-//                    (!isMiddleSeparate(text, index + 1)) &&
+//                    (!isTwoPhasedMiddleLetters(text, index + 1)) &&
 //                    (!isSeparateLetter(text, index - 1))){
 //                c = LAST_LETTERS.get(cIn);
 //            }
@@ -78,7 +78,7 @@ public class IrSys {
             }
         }
         else if(isLastLetters(text, index) && isSeparateLetter(text, index - 1)){
-            c = TWO_PHASED_LETTERS.get(cIn);
+            c = TWO_PHASED_LAST_LETTERS.get(cIn);
         }
         else if (isLastLetters(text, index)){
             c = LAST_LETTERS.get(cIn);

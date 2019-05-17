@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class IrSysMap {
     //TODO from davood akbari: Reduce the code by merging the maps
 
-    public static final String MIDDLE_SEPARATE_LETTERS = "ا";
+    public static final String TWO_PHASED_MIDDLE_LETTERS = "غعها";
 
     public static final String SEPARATE_LETTERS = "٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹،؛؟ـدذرزاژو";
 
@@ -189,9 +189,9 @@ public class IrSysMap {
 
         put('ظ', (byte) 224);
 
-        put('ع', (byte) 225);
+        put('ع', (byte) 226);
 
-        put('غ', (byte) 229);
+        put('غ', (byte) 230);
 
         put('ف', (byte) 233);
 
@@ -211,13 +211,13 @@ public class IrSysMap {
 
         put('ه', (byte) 249);
 
-        put('ی', (byte) 253);
+        put('ی', (byte) 252);
     }};
 
-    public static final HashMap<Character, Byte> TWO_PHASED_LETTERS = new HashMap<Character, Byte>(LAST_LETTERS){{
-        put('ع', (byte) 226);
-        put('غ', (byte) 230);
-        put('ی', (byte) 252);
+    public static final HashMap<Character, Byte> TWO_PHASED_LAST_LETTERS = new HashMap<Character, Byte>(LAST_LETTERS){{
+        put('ع', (byte) 225);
+        put('غ', (byte) 229);
+        put('ی', (byte) 253);
         put('ا', (byte) 144);
     }};
 

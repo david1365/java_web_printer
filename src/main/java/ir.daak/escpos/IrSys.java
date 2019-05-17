@@ -40,17 +40,18 @@ public class IrSys {
         return (c >= 0x0600 && c <= 0x06FF) /*|| (c >= 0xFB50 && c <= 0xFDFF) || (c >= 0xFE70 && c <= 0xFEFF)*/;
     }
 
-    private Boolean isSeparateLetter(String text, Integer previousLetterIndex){
-        if (previousLetterIndex < 0) {
+    private Boolean isSeparateLetter(String text, Integer index){
+        if (index < 0) {
                 return true;
         }
 
-        char c = text.charAt(previousLetterIndex);
-        return SEPARATE_LETTERS.indexOf(c) > 0 || !isPersian(c) || isNoAlphabet(c);
+        char c = text.charAt(index);
+        return SEPARATE_LETTERS.indexOf(c) >= 0 || !isPersian(c) || isNoAlphabet(c);
     }
 
-    private Boolean isAleph(char cIn){
-        return ALEPH.equals(cIn);
+    private Boolean isMiddleSeparate(String text, Integer index){
+        char c = text.charAt(index);
+        return MIDDLE_SEPARATE_LETTERS.indexOf(c) >= 0;
     }
 
     private Byte charAt(String text, Integer index){
@@ -64,10 +65,11 @@ public class IrSys {
             c = FIRST_LETTERS.get(cIn);
         }
         else if(isMiddleLetter(text, index)){
-            if (isAleph(cIn) && isSeparateLetter(text, index - 1)){
+            if (isMiddleSeparate(text, index) && isSeparateLetter(text, index - 1)){
                 c = FIRST_LETTERS.get(cIn);
             }
             else if(isSeparateLetter(text, index + 1) &&
+                    (!isMiddleSeparate(text, index + 1)) &&
                     (!isSeparateLetter(text, index - 1))){
                 c = LAST_LETTERS.get(cIn);
             }
@@ -76,7 +78,7 @@ public class IrSys {
             }
         }
         else if(isLastLetters(text, index) && isSeparateLetter(text, index - 1)){
-            c = EXCEPTION_LETTERS.get(cIn);
+            c = TWO_PHASED_LETTERS.get(cIn);
         }
         else if (isLastLetters(text, index)){
             c = LAST_LETTERS.get(cIn);

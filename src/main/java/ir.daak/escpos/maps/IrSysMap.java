@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class IrSysMap {
     //TODO from davood akbari: Reduce the code by merging the maps
 
-    public static final Character ALEPH = 'ا';
+    public static final String MIDDLE_SEPARATE_LETTERS = "ا";
 
     public static final String SEPARATE_LETTERS = "٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹،؛؟ـدذرزاژو";
 
@@ -214,7 +214,7 @@ public class IrSysMap {
         put('ی', (byte) 253);
     }};
 
-    public static final HashMap<Character, Byte> EXCEPTION_LETTERS = new HashMap<Character, Byte>(LAST_LETTERS){{
+    public static final HashMap<Character, Byte> TWO_PHASED_LETTERS = new HashMap<Character, Byte>(LAST_LETTERS){{
         put('ع', (byte) 226);
         put('غ', (byte) 230);
         put('ی', (byte) 252);

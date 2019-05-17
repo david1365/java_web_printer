@@ -25,7 +25,7 @@ public class IrSys {
     }
 
     private Boolean isNoAlphabet(char cIn){
-        return otherLetters.get(cIn) != null;
+        return OTHER_LETTERS.get(cIn) != null;
     }
 
     private Boolean isMiddleLetter(String text, Integer index){
@@ -41,12 +41,16 @@ public class IrSys {
     }
 
     private Boolean isSeparateLetter(String text, Integer previousLetterIndex){
-        if (previousLetterIndex <= 0){
+        if (previousLetterIndex < 0) {
                 return true;
         }
 
         char c = text.charAt(previousLetterIndex);
-        return separateLetters.indexOf(c) > 0 || !isPersian(c) || isNoAlphabet(c);
+        return SEPARATE_LETTERS.indexOf(c) > 0 || !isPersian(c) || isNoAlphabet(c);
+    }
+
+    private Boolean isAleph(char cIn){
+        return ALEPH.equals(cIn);
     }
 
     private Byte charAt(String text, Integer index){
@@ -54,24 +58,28 @@ public class IrSys {
         char cIn = text.charAt(index);
 
         if (isNoAlphabet(cIn)){
-            c = otherLetters.get(cIn);
+            c = OTHER_LETTERS.get(cIn);
         }
         else if (isFirstLetter(index)){
-            c = firstLetters.get(cIn);
+            c = FIRST_LETTERS.get(cIn);
         }
         else if(isMiddleLetter(text, index)){
-            if(isSeparateLetter(text, index + 1)){
-                c = lastLetters.get(cIn);
+            if (isAleph(cIn) && isSeparateLetter(text, index - 1)){
+                c = FIRST_LETTERS.get(cIn);
+            }
+            else if(isSeparateLetter(text, index + 1) &&
+                    (!isSeparateLetter(text, index - 1))){
+                c = LAST_LETTERS.get(cIn);
             }
             else {
-                c = middleLetters.get(cIn);
+                c = MIDDLE_LETTERS.get(cIn);
             }
         }
         else if(isLastLetters(text, index) && isSeparateLetter(text, index - 1)){
-            c = exceptionLetters.get(cIn);
+            c = EXCEPTION_LETTERS.get(cIn);
         }
         else if (isLastLetters(text, index)){
-            c = lastLetters.get(cIn);
+            c = LAST_LETTERS.get(cIn);
         }
 
         return c;

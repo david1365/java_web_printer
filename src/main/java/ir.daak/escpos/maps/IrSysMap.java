@@ -218,6 +218,7 @@ public class IrSysMap {
         put('ع', (byte) 226);
         put('غ', (byte) 230);
         put('ی', (byte) 252);
+        put('ا', (byte) 144);
     }};
 
     public static final HashMap<Character, Byte> OTHER_LETTERS = new HashMap<Character, Byte>(){{

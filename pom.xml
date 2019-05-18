@@ -17,6 +17,14 @@
   <name>slip-printer</name>
 
   <dependencies>
+    <!--springframework-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+
     <!--base-->
     <dependency>
       <groupId>ir.daak</groupId>

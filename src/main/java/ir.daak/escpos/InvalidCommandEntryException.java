@@ -1,7 +1,10 @@
 package ir.daak.escpos;
 
+import ir.daak.annotation.ResponsesHttpStatus;
 import ir.daak.exception.BaseException;
+import org.springframework.http.HttpStatus;
 
+@ResponsesHttpStatus(HttpStatus.BAD_REQUEST)
 public class InvalidCommandEntryException extends BaseException {
     public InvalidCommandEntryException() {
         super();

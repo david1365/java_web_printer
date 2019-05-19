@@ -3,7 +3,7 @@ package ir.daak.escpos.dto;
 import javax.validation.constraints.NotEmpty;
 
 public class CommandDto {
-    @NotEmpty(message = "slipPrinter.CommandName")
+    @NotEmpty(message = "slp.CommandName")
     private String name;
     private String param;
 

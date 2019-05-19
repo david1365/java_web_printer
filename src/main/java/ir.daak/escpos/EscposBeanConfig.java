@@ -7,9 +7,9 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @PropertySource({
-        "classpath:messages_fa.properties",
-        "classpath:messages_en.properties",
-        "classpath:messages.properties"
+        "classpath:slp_messages_fa.properties",
+        "classpath:slp_messages_en.properties",
+        "classpath:slp_messages.properties"
 })
 public class EscposBeanConfig {
     @Value("${slipPrinter.portName:COM1}")

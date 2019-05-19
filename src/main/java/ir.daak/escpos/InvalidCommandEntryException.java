@@ -1,7 +1,7 @@
 package ir.daak.escpos;
 
-import ir.daak.annotation.ResponsesHttpStatus;
-import ir.daak.exception.BaseException;
+import ir.daak.base.annotation.ResponsesHttpStatus;
+import ir.daak.base.exception.BaseException;
 import org.springframework.http.HttpStatus;
 
 @ResponsesHttpStatus(HttpStatus.BAD_REQUEST)

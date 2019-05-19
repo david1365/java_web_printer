@@ -10,7 +10,6 @@
     <version>${agent.core.version}</version>
   </parent>
 
-  <groupId>ir.daak</groupId>
   <artifactId>slip-printer</artifactId>
   <version>${slip.printer.version}</version>
 

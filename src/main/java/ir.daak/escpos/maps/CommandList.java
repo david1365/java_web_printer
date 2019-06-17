@@ -1,5 +1,12 @@
 package ir.daak.escpos.maps;
 
+/**
+ * @author Davood Akbari - 1398
+ * daak1365@gmail.com
+ * daak1365@yahoo.com
+ * 09125188694
+ */
+
 import ir.daak.escpos.model.Command;
 
 import java.util.HashMap;

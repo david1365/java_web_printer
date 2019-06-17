@@ -1,5 +1,12 @@
 package ir.daak.escpos;
 
+/**
+ * @author Davood Akbari - 1398
+ * daak1365@gmail.com
+ * daak1365@yahoo.com
+ * 09125188694
+ */
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

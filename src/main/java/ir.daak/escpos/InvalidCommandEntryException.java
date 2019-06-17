@@ -1,5 +1,12 @@
 package ir.daak.escpos;
 
+/**
+ * @author Davood Akbari - 1398
+ * daak1365@gmail.com
+ * daak1365@yahoo.com
+ * 09125188694
+ */
+
 import ir.daak.base.annotation.ResponsesHttpStatus;
 import ir.daak.base.exception.BaseException;
 import org.springframework.http.HttpStatus;
